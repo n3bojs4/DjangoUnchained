@@ -1,7 +1,4 @@
 urllib3
 argparse
 bs4
-logging
-sys
 colorama
-
