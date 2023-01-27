@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 
-from operator import eq
 import urllib3
 import argparse
 from bs4 import BeautifulSoup
