@@ -4,6 +4,8 @@ This tool was created during a pentest because the classic tools did not allow t
 
 dictionary attack on the Django administration site.
 
+This tool allows to bypass the csrf token protection implemented on the login page.
+
 # 📐 Installation 📏
 
 ## Cloning source
