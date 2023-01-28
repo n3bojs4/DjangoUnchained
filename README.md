@@ -4,10 +4,9 @@ This tool was created during a pentest because the classic tools did not allow t
 
 dictionary attack on the Django administration site.
 
+# 📐 Installation 📏
 
-# 🙀 Installation 🙀
-
-## Cloning source
+## Cloning source
 git clone https://github.com/n3bojs4/DjangoUnchained.git
 
 
@@ -17,8 +16,7 @@ cd DjangoUnchained && python3 -m venv .
 source bin/activate
 pip install -U pip && pip install -r requirements.txt
 ```
-
-## installing on the system
+## installing on the system
 ```
 cd DjangoUnchained && pip install -r requirements.txt
 
