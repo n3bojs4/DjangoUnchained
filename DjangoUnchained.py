@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 
+from turtle import pos
 import urllib3
 import argparse
 from bs4 import BeautifulSoup
@@ -125,12 +126,12 @@ def Authenticate(admin_url,username,password):
         print(msg)
         if logfile:
             logger.warning(msg)
-    if "Please" in data and onlygood is False:
+    elif "Please" in data and onlygood is False:
         msg = "Trying username:" + username + " password:" + password + " FAILED"
         print(msg)
         if logfile:
             logger.warning(msg)
-    if postlogin.status == 302 :
+    elif postlogin.status == 302 :
         if "sessionid" in postlogin.headers["Set-Cookie"]:
             msg = "SUCCESS: Found a valid account !!! --> username:" + username + " pass:" + password
             print(Back.YELLOW+Fore.RED+Style.BRIGHT+msg+Style.RESET_ALL)
@@ -141,6 +142,15 @@ def Authenticate(admin_url,username,password):
             print(Back.YELLOW+Fore.RED+Style.BRIGHT+msg+Style.RESET_ALL)
             if logfile:
                 logger.warning(msg)
+    else:
+        msg = "Unexpected server reply with user: "+username+" pass: "+password+" Status :"+str(postlogin.status)+" Content:"+str(postlogin.headers)+data
+        print(Back.WHITE+Fore.RED+"Unexpected server reply with user: "+username+" pass: "+password)
+        print("Status :",postlogin.status)
+        print("Content:",str(postlogin.headers),data,Style.RESET_ALL)
+        if logfile:
+            logger.error(msg)
+    
+
     
 
 
