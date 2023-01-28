@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 
-from turtle import pos
 import urllib3
 import argparse
 from bs4 import BeautifulSoup
