@@ -33,7 +33,7 @@ Django Admin Panel password testing tool v0.1 - by n3bojs4
 # Get arguments
 
 parser = argparse.ArgumentParser()
-parser.add_argument("-domain",help="Domain for the django admin login page.",required=True)
+parser.add_argument("-domain",help="Domain for the django admin login page ( add the :port if non standard, eq: domain.com:8000 ).",required=True)
 parser.add_argument("-scheme",help="http or https scheme.",required=True)
 parser.add_argument("-uri",help="uri for the admin login page, \"/admin/login/\" is the most common.",required=True)
 parser.add_argument("-userdict",help="dictionnary file for user list.",required=True)
