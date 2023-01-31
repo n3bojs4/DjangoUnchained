@@ -14,7 +14,7 @@ from fake_useragent import UserAgent
 __author__  = 'n3bojs4'
 __email__   = 'n3bojs4@gmail.com'
 __git__     = 'https://github.com/n3bojs4/DjangoUnchained'
-__version__ = '0.1a'
+__version__ = '0.2'
 __license__ = 'MIT'
 __pyver__   = '%d.%d.%d' % sys.version_info[0:3]
 
