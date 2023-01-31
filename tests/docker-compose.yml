@@ -3,3 +3,5 @@ version: '3.8'
 services:
   django:
     image: "djang0unchained/djangoadminpanel"
+    ports:
+      - "8000:8000"
