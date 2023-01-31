@@ -8,6 +8,15 @@ import sys
 from colorama import Back, Fore, Style
 
 
+
+__author__  = 'n3bojs4'
+__email__   = 'n3bojs4@gmail.com'
+__git__     = 'https://github.com/n3bojs4/DjangoUnchained'
+__version__ = '0.1a'
+__license__ = 'MIT'
+__pyver__   = '%d.%d.%d' % sys.version_info[0:3]
+
+
 def banner():
     print(Fore.GREEN, Style.BRIGHT,"""
 ---------------------------------------------------
@@ -25,8 +34,8 @@ def banner():
 
 ----------------------------------------------------                                                  
 
-Django Admin Panel password testing tool v0.1 - by n3bojs4   
-    """,Style.RESET_ALL)
+Django Admin Panel password testing tool v"""+__version__+" - by "+__author__+"\n"
++__git__," python:"+ __pyver__,Style.RESET_ALL+"\n")
 
 
 
@@ -46,6 +55,7 @@ banner()
 
 # Parse args
 args = parser.parse_args()
+
 
 domain = args.domain
 scheme = args.scheme
