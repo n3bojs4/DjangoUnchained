@@ -44,19 +44,21 @@ cd DjangoUnchained && pip install -r requirements.txt
 
 ----------------------------------------------------                                                  
 
-Django Admin Panel password testing tool v0.1 - by n3bojs4   
-     
+Django Admin Panel password testing tool v0.1 - by n3bojs4
+https://github.com/n3bojs4/DjangoUnchained  python:3.10.6 
+
 usage: DjangoUnchained.py [-h] -domain DOMAIN -scheme SCHEME -uri URI -userdict USERDICT -passwdict PASSWDICT [-onlygood] [-l L]
 
-optional arguments:
+options:
   -h, --help            show this help message and exit
-  -domain DOMAIN        Domain for the django admin login page ( add :port if non standard, eq: domain.com:8000 ).
+  -domain DOMAIN        Domain for the django admin login page ( add the :port if non standard, eq: domain.com:8000 ).
   -scheme SCHEME        http or https scheme.
   -uri URI              uri for the admin login page, "/admin/login/" is the most common.
   -userdict USERDICT    dictionnary file for user list.
   -passwdict PASSWDICT  dictionnary file for password.
   -onlygood             Show only good attempts.
   -l L                  Log to a file.
+
 
 ```
 
