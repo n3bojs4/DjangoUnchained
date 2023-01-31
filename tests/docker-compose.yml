@@ -43,8 +43,8 @@ services:
           cpus: "${DOCKER_POSTGRES_CPUS:-0}"
           memory: "${DOCKER_POSTGRES_MEMORY:-0}"
     environment:
-      POSTGRES_USER: "${POSTGRES_USER}"
-      POSTGRES_PASSWORD: "${POSTGRES_PASSWORD}"
+      POSTGRES_USER: "hello"
+      POSTGRES_PASSWORD: "password"
       # POSTGRES_DB: "${POSTGRES_DB}"
     image: "postgres:15.1-bullseye"
     profiles: ["postgres"]
