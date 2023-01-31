@@ -1,3 +1,0 @@
-(() => {
-})();
-//# sourceMappingURL=app.js.map
