@@ -8,7 +8,7 @@ import sys
 from colorama import Back, Fore, Style
 import pickle
 import os
-
+from fake_useragent import UserAgent
 
 
 __author__  = 'n3bojs4'
@@ -50,6 +50,7 @@ parser.add_argument("-uri",help="uri for the admin login page, \"/admin/login/\"
 parser.add_argument("-userdict",help="dictionnary file for user list.",required=True)
 parser.add_argument("-passwdict",help="dictionnary file for password.",required=True)
 parser.add_argument("-onlygood",help="Show only good attempts.",action='store_true', default=False, required=False)
+parser.add_argument("-rua",help="Use random user-agent.",action='store_true', default=False, required=False)
 parser.add_argument("-l",help="Log to a file.",required=False)
 parser.add_argument("-restore",help="restore from a .session file, by default domain name is used to save the session.",required=False)
 
@@ -69,8 +70,15 @@ passwords = args.passwdict
 onlygood = args.onlygood
 logfile = args.l
 rsession = args.restore
+rua = args.rua
 
 admin_url = scheme + '://' + domain + uri
+
+
+# Loading user-agents
+if rua is True:
+    ua = UserAgent()
+
 
 # Disable warnings for certs
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
@@ -102,7 +110,10 @@ headers={'Connection': 'keep-alive',
 
 # Functions
 
-def Authenticate(admin_url,username,password):
+def Authenticate(admin_url,username,password,randomua):
+    if randomua is True:
+        headers['User-Agent'] = ua.random
+    
     r = http.request('GET', admin_url, headers=headers)
     login_page = r.data
     Cookies = r.headers["Set-Cookie"]
@@ -212,9 +223,6 @@ def RestoreSession(domain):
 
 
 
-
-
-
 # Main
 
 # Restore session if needed
@@ -236,7 +244,11 @@ while Credentials:
     record = Credentials.pop(0)
     login = record[0]
     password = record[1]
-    Authenticate(admin_url,login,password)
+    if rua is True:
+        Authenticate(admin_url,login,password,True)
+    else:
+        Authenticate(admin_url,login,password,False)
+    
     SaveSession(Credentials,domain)
 
 
