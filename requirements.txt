@@ -2,3 +2,4 @@ urllib3
 argparse
 bs4
 colorama
+fake-useragent
