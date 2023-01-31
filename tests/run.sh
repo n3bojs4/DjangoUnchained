@@ -1,1 +1,1 @@
-echo "OK"
+./DjangoUnchained.py -domain 127.0.0.1:8000 -scheme http -uri /admin/login/ -userdict tests/users.dict -passwdict tests/passwords.dict -l /tmp/logfile
