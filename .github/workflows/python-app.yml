@@ -20,7 +20,7 @@ jobs:
     steps:
     - uses: actions/checkout@v3
     - name: build the docker-compose stack
-      run: cd tests && docker compose up -d && cd ..
+      run: cd tests && docker compose up postgres redis web worker js css && cd ..
 
     - name: Wait a little bit
       run: sleep 60s
