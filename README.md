@@ -44,10 +44,10 @@ cd DjangoUnchained && pip install -r requirements.txt
 
 ----------------------------------------------------                                                  
 
-Django Admin Panel password testing tool v0.1 - by n3bojs4
+Django Admin Panel password testing tool v0.2 - by n3bojs4
 https://github.com/n3bojs4/DjangoUnchained  python:3.10.6 
 
-usage: DjangoUnchained.py [-h] -domain DOMAIN -scheme SCHEME -uri URI -userdict USERDICT -passwdict PASSWDICT [-onlygood] [-l L]
+usage: DjangoUnchained.py [-h] -domain DOMAIN -scheme SCHEME -uri URI -userdict USERDICT -passwdict PASSWDICT [-onlygood] [-rua] [-l L] [-restore RESTORE]
 
 options:
   -h, --help            show this help message and exit
@@ -57,7 +57,10 @@ options:
   -userdict USERDICT    dictionnary file for user list.
   -passwdict PASSWDICT  dictionnary file for password.
   -onlygood             Show only good attempts.
+  -rua                  Use random user-agent.
   -l L                  Log to a file.
+  -restore RESTORE      restore from a .session file, by default domain name is used to save the session.
+
 
 
 ```
@@ -70,6 +73,15 @@ Trying a dictionnary attack and logging to a file :
 ```
 
 DjangoUnchained.py -domain MyDomain.com:8000 -scheme https -uri /admin/login/ -userdict /usr/share/wordlists/seclists/usernames -passwdict /usr/share/wordlists/rockyou.txt -l /home/myuser/file.log
+
+```
+
+Restore a previous session aborted :
+
+```
+
+DjangoUnchained.py -domain MyDomain.com:8000 -scheme https -uri /admin/login/ -userdict /usr/share/wordlists/seclists/usernames -passwdict /usr/share/wordlists/rockyou.txt -l /home/myuser/file.log -restore .MyDomain.com:8000.session
+
 
 ```
 
