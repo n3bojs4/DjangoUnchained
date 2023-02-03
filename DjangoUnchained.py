@@ -130,7 +130,7 @@ def Authenticate(admin_url,username,password,randomua):
     
     payload = "csrfmiddlewaretoken="+csrfmiddlewaretoken+"&"+"username="+username+"&"+"next="+nextpage+"&password="+password
     
-    postlogin = http.request('POST', admin_url, headers=headers, body=payload, redirect=False)
+    postlogin = http.request('POST', admin_url, headers=headers, body=payload.encode('utf-8'), redirect=False)
     data = postlogin.data.decode('utf-8')
 
     if "CSRF" in data:
