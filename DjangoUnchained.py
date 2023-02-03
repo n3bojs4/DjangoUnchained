@@ -114,10 +114,20 @@ def Authenticate(admin_url,username,password,randomua):
     if randomua is True:
         headers['User-Agent'] = ua.random
     
-    r = http.request('GET', admin_url, headers=headers)
+    try:
+        r = http.request('GET', admin_url, headers=headers)
+    except urllib3.exceptions.MaxRetryError as e:
+        print("Connection error:",e)
+        exit(1)
+    
     login_page = r.data
     Cookies = r.headers["Set-Cookie"]
-    soup = BeautifulSoup(login_page, 'html.parser')
+    
+    try:
+        soup = BeautifulSoup(login_page, 'html.parser')
+    except Exception as e:
+        print("Error when reading response:",e)
+        exit(1)
 
     # Getting the csrf token
     csrfmiddlewaretoken = soup.find('input', {'name': 'csrfmiddlewaretoken'})['value']
