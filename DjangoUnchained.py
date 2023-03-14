@@ -121,8 +121,12 @@ def Authenticate(admin_url,username,password,randomua):
         exit(1)
     
     login_page = r.data
-    Cookies = r.headers["Set-Cookie"]
-    
+    try:
+        Cookies = r.headers["Set-Cookie"]
+    except Exception as e:
+        print("Error no cookie has been set by the page",admin_url,". Please check your URI, most of the time /admin/login/ (with ending /) must be used !")
+        exit(1)
+        
     try:
         soup = BeautifulSoup(login_page, 'html.parser')
     except Exception as e:
@@ -144,7 +148,7 @@ def Authenticate(admin_url,username,password,randomua):
     data = postlogin.data.decode('utf-8')
 
     if "CSRF" in data:
-        msg = "CSRF token missing or invalid !"
+        msg = "CSRF token missing or invalid ! Be careful for old installations, check that the URI is terminated by '/' eq: /admin/login/."
         print(msg)
         if logfile:
             logger.warning(msg)
@@ -153,7 +157,14 @@ def Authenticate(admin_url,username,password,randomua):
         print(msg)
         if logfile:
             logger.warning(msg)
-    elif postlogin.status == 302 :
+    elif postlogin.status == 302:
+        try:
+            postlogin.headers["Set-Cookie"]
+        except Exception as e:
+            print("Your admin url seems to be redirected, but no cookie has been set. It happens most of the time when you are not using the good URI.")
+            print("Try to add / at the end. Most of installation are using /admin/login/ URI.")
+            exit(1)
+
         if "sessionid" in postlogin.headers["Set-Cookie"]:
             msg = "SUCCESS: Found a valid account !!! --> username:" + username + " pass:" + password
             print(Back.YELLOW+Fore.RED+Style.BRIGHT+msg+Style.RESET_ALL)
