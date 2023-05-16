@@ -220,7 +220,10 @@ def SaveSession(mylist,domain):
     
     if len(mylist) == 0:
         print("Cleaning session file.")
-        os.remove(sessionfile)
+        try:
+            os.remove(sessionfile)
+        except:
+            print("no session file found to clean.")
     else:
         try:
             with open(sessionfile,"wb") as f:
