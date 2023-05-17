@@ -106,7 +106,7 @@ if logfile:
 headers={'Connection': 'keep-alive',
             'Content-Type': 'application/x-www-form-urlencoded',
             'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/90.0.4430.212 Safari/537.36',
-            'Referer': domain + uri }
+            'Referer': scheme + '://' + domain + uri }
 
 # Functions
 
@@ -220,7 +220,10 @@ def SaveSession(mylist,domain):
     
     if len(mylist) == 0:
         print("Cleaning session file.")
-        os.remove(sessionfile)
+        try:
+            os.remove(sessionfile)
+        except:
+            print("no session file found to clean.")
     else:
         try:
             with open(sessionfile,"wb") as f:
