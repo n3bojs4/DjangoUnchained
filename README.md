@@ -85,6 +85,12 @@ DjangoUnchained.py -domain MyDomain.com:8000 -scheme https -uri /admin/login/ -u
 
 ```
 
+## Disclaimer
+
+Usage of this tool for attacking targets without prior mutual consent is illegal. It is the end user's responsibility to obey all applicable local, state and federal laws. Developers assume no liability and are not responsible for any misuse or damage caused by this program
+
+
+
 # Buy me a 🍺 / ☕
 
 <a href="https://www.buymeacoffee.com/n3bojs4z" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/default-orange.png" alt="Buy Me A Coffee" height="41" width="174"></a>
